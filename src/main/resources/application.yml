@@ -1,7 +1,5 @@
 cors:
   originPatterns: http://localhost:3000,http://localhost:8080,https://invictus.com.br
-#file:
-  #upload-dir: /Users/Erivelton/Documents/Repository/1-Pessoal/3-Udemy/1-SpringBoot/UploadDir
 security:
   jwt:
     token:
