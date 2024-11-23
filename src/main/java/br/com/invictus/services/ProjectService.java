@@ -47,12 +47,12 @@ public class ProjectService {
     public ProjectVO findByProjectName(String project){
 
         logger.info("Finding by name");
-        logger.info("Finding by name: {}" + project);
+        logger.info("Finding by name: " + project);
 
         var projectName = projectRepository.findByProjectName("%" + project.trim().toLowerCase() + "%");
 
         if (projectName == null) {
-            logger.warning("No user found with name: {}" + projectName);
+            logger.warning("No user found with name: " + projectName);
         }
 
         var projectVO = DozerMapper.parseObject(projectName, ProjectVO.class);
