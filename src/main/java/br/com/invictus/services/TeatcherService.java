@@ -2,6 +2,7 @@ package br.com.invictus.services;
 
 import br.com.invictus.data.vo.TeatcherVO;
 import br.com.invictus.data.vo.UserVO;
+import br.com.invictus.enums.DegreeENUM;
 import br.com.invictus.exceptions.ResourceNotFoundException;
 import br.com.invictus.mapper.DozerMapper;
 import br.com.invictus.model.TeatcherModel;
@@ -62,27 +63,20 @@ public class TeatcherService {
     }
 
     public ResponseEntity<?> create(TeatcherVO teatcherVO) {
+        var existingTeatchers = teatcherRepository.findByTeatcherName(teatcherVO.getFirstNameTeatcher());
 
-        var teatcher = teatcherRepository.findByTeatcherName(teatcherVO.getFirstNameTeatcher());
-
-        try{
-            // Verifica se o usuário já existe
-            if (teatcher == null) {
-                return ResponseEntity.status(HttpStatus.CONFLICT)
-                        .body("Professor já existe!");
-            }
-
-            var teatcherModel = DozerMapper.parseObject(teatcherVO, TeatcherModel.class);
-            var savedTeatcher = teatcherRepository.save(teatcherModel);
-            TeatcherVO savedTeatcherVO = DozerMapper.parseObject(savedTeatcher, TeatcherVO.class);
-
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Professor criado com sucesso");
-        } catch (Exception e) {
-            logger.warning("Erro ao criar professor");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Falha ao criar o professor: " + e.getMessage());
+        // Verifica se já existe um professor com o mesmo nome
+        if (!existingTeatchers.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Professor já existe!");
         }
 
+        try {
+            var teatcherModel = DozerMapper.parseObject(teatcherVO, TeatcherModel.class);
+            var savedTeatcher = teatcherRepository.save(teatcherModel);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Professor criado com sucesso");
+        } catch (Exception e) {
+            logger.warning("Erro ao criar professor: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao criar o professor");
+        }
     }
 }

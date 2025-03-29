@@ -44,4 +44,13 @@ public enum BeltENUM {
     public String toString() {
         return description;
     }
+
+    public static BeltENUM fromDescription(String description) {
+        for (BeltENUM belt : BeltENUM.values()) {
+            if (belt.getDescription().equalsIgnoreCase(description)) {
+                return belt;
+            }
+        }
+        throw new IllegalArgumentException("Unknown belt description: " + description);
+    }
 }

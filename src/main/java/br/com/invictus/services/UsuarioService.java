@@ -7,7 +7,6 @@ import br.com.invictus.mapper.DozerMapper;
 import br.com.invictus.model.PermissionModel;
 import br.com.invictus.model.UserModel;
 import br.com.invictus.repositories.PermissionRepository;
-import br.com.invictus.repositories.UrlRepository;
 import br.com.invictus.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +29,6 @@ public class UsuarioService {
 
     @Autowired
     UserRepository usuarioRepository;
-
-    @Autowired
-    UrlRepository urlRepository;
 
     @Autowired
     PermissionRepository permissionRepository;
@@ -189,16 +185,6 @@ public class UsuarioService {
 
         var entity = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
-
-        var urls = urlRepository.findUrlByIdUser(id);
-
-        // Verifique se existem URLs associadas
-        if (urls == null || urls.isEmpty()) {
-            logger.warning("No URLs found for user ID: " + id);
-        } else {
-            // Deletar todas as URLs associadas
-            urlRepository.deleteAll(urls);
-        }
 
         usuarioRepository.delete(entity);
     }
