@@ -3,6 +3,7 @@ package br.com.invictus.controller;
 import br.com.invictus.data.vo.TeatcherVO;
 import br.com.invictus.enums.BeltENUM;
 import br.com.invictus.enums.DegreeENUM;
+import br.com.invictus.exceptions.ResourceNotFoundException;
 import br.com.invictus.services.TeatcherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -91,6 +92,20 @@ public class TeatcherController {
             return teatcherService.create(teatcherVO);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar a imagem.");
+        }
+    }
+
+    @Operation(summary = "Update em professor.")
+    @PutMapping
+    public ResponseEntity<?> updateTeatcher(@RequestBody TeatcherVO teatcherVO) {
+        try {
+            TeatcherVO updated = teatcherService.update(teatcherVO);
+            return ResponseEntity.ok(updated);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Professor não encontrado");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar professor");
         }
     }
 

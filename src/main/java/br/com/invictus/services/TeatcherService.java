@@ -1,8 +1,7 @@
 package br.com.invictus.services;
 
 import br.com.invictus.data.vo.TeatcherVO;
-import br.com.invictus.data.vo.UserVO;
-import br.com.invictus.enums.DegreeENUM;
+
 import br.com.invictus.exceptions.ResourceNotFoundException;
 import br.com.invictus.mapper.DozerMapper;
 import br.com.invictus.model.TeatcherModel;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -79,4 +79,36 @@ public class TeatcherService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao criar o professor");
         }
     }
+
+    public TeatcherVO update(TeatcherVO vo) {
+
+        System.out.println("BASE64 RECEBIDO: " + vo.getPhotoBase64());
+
+
+        Optional<TeatcherModel> existingOptional = teatcherRepository.findById(vo.getId());
+
+        if (!existingOptional.isPresent()) {
+            throw new ResourceNotFoundException("Professor não encontrado com ID: " + vo.getId());
+        }
+
+        TeatcherModel existing = existingOptional.get();
+
+        // Atualiza os campos recebidos do frontend
+        existing.setEmailTeatcher(vo.getEmailTeatcher());
+        existing.setWeightTeatcher(vo.getWeightTeatcher());
+        existing.setAddressTeatcher(vo.getAddressTeatcher());
+        existing.setPhoneTeatcher(vo.getPhoneTeatcher());
+        existing.setPhoneTeatcherTwo(vo.getPhoneTeatcherTwo());
+        existing.setGenderTeatcher(vo.getGenderTeatcher());
+        existing.setPhotoBase64(vo.getPhotoBase64());
+        existing.setPhotoBase64(vo.getPhotoBase64());
+        existing.setBelt(vo.getBelt());
+        existing.setDegree(vo.getDegree());
+        existing.setProjectId(vo.getProjectId());
+
+        TeatcherModel saved = teatcherRepository.save(existing);
+
+        return DozerMapper.parseObject(saved, TeatcherVO.class);
+    }
+
 }
