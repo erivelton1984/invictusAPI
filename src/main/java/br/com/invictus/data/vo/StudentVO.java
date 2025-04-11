@@ -21,6 +21,7 @@ public class StudentVO implements Serializable {
     private String studentPhone;
     private String studentCellPhone;
     private String studentEmail;
+    private String genderStudent;
     private LocalDate birthDate;
     private String observation;
     private BeltENUM beltENUM;
@@ -95,6 +96,14 @@ public class StudentVO implements Serializable {
         this.studentEmail = studentEmail;
     }
 
+    public String getGenderStudent() {
+        return genderStudent;
+    }
+
+    public void setGenderStudent(String genderStudent) {
+        this.genderStudent = genderStudent;
+    }
+
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -145,13 +154,13 @@ public class StudentVO implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof StudentVO studentVO)) return false;
-        return Objects.equals(getId(), studentVO.getId()) && Objects.equals(getStudentName(), studentVO.getStudentName()) && Objects.equals(getRg(), studentVO.getRg()) && Objects.equals(getCpf(), studentVO.getCpf()) && Objects.equals(getStudentAddress(), studentVO.getStudentAddress()) && Objects.equals(getStudentPhone(), studentVO.getStudentPhone()) && Objects.equals(getStudentCellPhone(), studentVO.getStudentCellPhone()) && Objects.equals(getStudentEmail(), studentVO.getStudentEmail()) && Objects.equals(getBirthDate(), studentVO.getBirthDate()) && Objects.equals(getObservation(), studentVO.getObservation()) && getBeltENUM() == studentVO.getBeltENUM() && getDegreeENUM() == studentVO.getDegreeENUM() && Objects.equals(getProjectId(), studentVO.getProjectId()) && Objects.equals(getTeatcherId(), studentVO.getTeatcherId());
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentVO studentVO = (StudentVO) o;
+        return Objects.equals(id, studentVO.id) && Objects.equals(studentName, studentVO.studentName) && Objects.equals(rg, studentVO.rg) && Objects.equals(cpf, studentVO.cpf) && Objects.equals(studentAddress, studentVO.studentAddress) && Objects.equals(studentPhone, studentVO.studentPhone) && Objects.equals(studentCellPhone, studentVO.studentCellPhone) && Objects.equals(studentEmail, studentVO.studentEmail) && Objects.equals(genderStudent, studentVO.genderStudent) && Objects.equals(birthDate, studentVO.birthDate) && Objects.equals(observation, studentVO.observation) && beltENUM == studentVO.beltENUM && degreeENUM == studentVO.degreeENUM && Objects.equals(projectId, studentVO.projectId) && Objects.equals(teatcherId, studentVO.teatcherId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStudentName(), getRg(), getCpf(), getStudentAddress(), getStudentPhone(), getStudentCellPhone(), getStudentEmail(), getBirthDate(), getObservation(), getBeltENUM(), getDegreeENUM(), getProjectId(), getTeatcherId());
+        return Objects.hash(id, studentName, rg, cpf, studentAddress, studentPhone, studentCellPhone, studentEmail, genderStudent, birthDate, observation, beltENUM, degreeENUM, projectId, teatcherId);
     }
 }
