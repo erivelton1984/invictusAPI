@@ -42,6 +42,9 @@ public class StudentModel implements Serializable{
     @Column(name = "student_gender")
     private String genderStudent;
 
+    @Column(name = "student_weight")
+    private String studentWeight;
+
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
@@ -58,9 +61,6 @@ public class StudentModel implements Serializable{
 
     @Column(name = "project_id")
     private Long projectId;
-
-    @Column(name = "teatcher_id")
-    private Long teatcherId;
 
     @Lob
     @Column(name = "photo_base64")
@@ -141,6 +141,14 @@ public class StudentModel implements Serializable{
         this.genderStudent = genderStudent;
     }
 
+    public String getStudentWeight() {
+        return studentWeight;
+    }
+
+    public void setStudentWeight(String studentWeight) {
+        this.studentWeight = studentWeight;
+    }
+
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -181,14 +189,6 @@ public class StudentModel implements Serializable{
         this.projectId = projectId;
     }
 
-    public Long getTeatcherId() {
-        return teatcherId;
-    }
-
-    public void setTeatcherId(Long teatcherId) {
-        this.teatcherId = teatcherId;
-    }
-
     public String getPhotoBase64() {
         return photoBase64;
     }
@@ -201,11 +201,11 @@ public class StudentModel implements Serializable{
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         StudentModel that = (StudentModel) o;
-        return Objects.equals(id, that.id) && Objects.equals(studentName, that.studentName) && Objects.equals(rg, that.rg) && Objects.equals(cpf, that.cpf) && Objects.equals(studentAddress, that.studentAddress) && Objects.equals(studentPhone, that.studentPhone) && Objects.equals(studentCellPhone, that.studentCellPhone) && Objects.equals(studentEmail, that.studentEmail) && Objects.equals(genderStudent, that.genderStudent) && Objects.equals(birthDate, that.birthDate) && Objects.equals(observation, that.observation) && beltENUM == that.beltENUM && degreeENUM == that.degreeENUM && Objects.equals(projectId, that.projectId) && Objects.equals(teatcherId, that.teatcherId) && Objects.equals(photoBase64, that.photoBase64);
+        return Objects.equals(id, that.id) && Objects.equals(studentName, that.studentName) && Objects.equals(rg, that.rg) && Objects.equals(cpf, that.cpf) && Objects.equals(studentAddress, that.studentAddress) && Objects.equals(studentPhone, that.studentPhone) && Objects.equals(studentCellPhone, that.studentCellPhone) && Objects.equals(studentEmail, that.studentEmail) && Objects.equals(genderStudent, that.genderStudent) && Objects.equals(studentWeight, that.studentWeight) && Objects.equals(birthDate, that.birthDate) && Objects.equals(observation, that.observation) && beltENUM == that.beltENUM && degreeENUM == that.degreeENUM && Objects.equals(projectId, that.projectId) && Objects.equals(photoBase64, that.photoBase64);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, studentName, rg, cpf, studentAddress, studentPhone, studentCellPhone, studentEmail, genderStudent, birthDate, observation, beltENUM, degreeENUM, projectId, teatcherId, photoBase64);
+        return Objects.hash(id, studentName, rg, cpf, studentAddress, studentPhone, studentCellPhone, studentEmail, genderStudent, studentWeight, birthDate, observation, beltENUM, degreeENUM, projectId, photoBase64);
     }
 }
