@@ -2,6 +2,8 @@ package br.com.invictus.services;
 
 import br.com.invictus.data.vo.StudentVO;
 import br.com.invictus.data.vo.TeatcherVO;
+import br.com.invictus.enums.BeltENUM;
+import br.com.invictus.enums.DegreeENUM;
 import br.com.invictus.exceptions.ResourceNotFoundException;
 import br.com.invictus.mapper.DozerMapper;
 import br.com.invictus.model.StudentModel;
@@ -14,8 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -86,8 +90,33 @@ public class StudentService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Falha ao criar o aluno: " + e.getMessage());
         }
-
     }
 
+    public StudentVO update(StudentVO vo) {
 
+        Optional<StudentModel> existingOptional = studentRepository.findById(vo.getId());
+
+        if (!existingOptional.isPresent()) {
+            throw new ResourceNotFoundException("Aluno não encontrado com ID: " + vo.getId());
+        }
+
+        StudentModel existing = existingOptional.get();
+
+        // Atualiza os campos recebidos do frontend
+        existing.setStudentName(vo.getStudentName());
+        existing.setRg(vo.getRg());
+        existing.setCpf(vo.getCpf());
+        existing.setStudentAddress(vo.getStudentAddress());
+        existing.setStudentPhone(vo.getStudentPhone());
+        existing.setStudentCellPhone(vo.getStudentCellPhone());
+        existing.setStudentEmail(vo.getStudentEmail());
+        existing.setObservation(vo.getObservation());
+        existing.setBeltENUM(vo.getBeltENUM());
+        existing.setDegreeENUM(vo.getDegreeENUM());
+        existing.setProjectId(vo.getProjectId());
+
+        StudentModel saved = studentRepository.save(existing);
+
+        return DozerMapper.parseObject(saved, StudentVO.class);
+    }
 }

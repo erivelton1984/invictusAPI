@@ -101,7 +101,6 @@ public class TeatcherService {
         existing.setPhoneTeatcherTwo(vo.getPhoneTeatcherTwo());
         existing.setGenderTeatcher(vo.getGenderTeatcher());
         existing.setPhotoBase64(vo.getPhotoBase64());
-        existing.setPhotoBase64(vo.getPhotoBase64());
         existing.setBelt(vo.getBelt());
         existing.setDegree(vo.getDegree());
         existing.setProjectId(vo.getProjectId());
