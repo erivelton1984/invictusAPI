@@ -102,18 +102,18 @@ public class StudentService {
 
         StudentModel existing = existingOptional.get();
 
-        // Atualiza os campos recebidos do frontend
-        existing.setStudentName(vo.getStudentName());
-        existing.setRg(vo.getRg());
-        existing.setCpf(vo.getCpf());
-        existing.setStudentAddress(vo.getStudentAddress());
-        existing.setStudentPhone(vo.getStudentPhone());
-        existing.setStudentCellPhone(vo.getStudentCellPhone());
-        existing.setStudentEmail(vo.getStudentEmail());
-        existing.setObservation(vo.getObservation());
-        existing.setBeltENUM(vo.getBeltENUM());
-        existing.setDegreeENUM(vo.getDegreeENUM());
-        existing.setProjectId(vo.getProjectId());
+        // Atualiza os campos recebidos do frontend, preservando os campos não enviados
+        if (vo.getStudentName() != null) existing.setStudentName(vo.getStudentName());
+        if (vo.getRg() != null) existing.setRg(vo.getRg());
+        if (vo.getCpf() != null) existing.setCpf(vo.getCpf());
+        if (vo.getStudentAddress() != null) existing.setStudentAddress(vo.getStudentAddress());
+        if (vo.getStudentPhone() != null) existing.setStudentPhone(vo.getStudentPhone());
+        if (vo.getStudentCellPhone() != null) existing.setStudentCellPhone(vo.getStudentCellPhone());
+        if (vo.getStudentEmail() != null) existing.setStudentEmail(vo.getStudentEmail());
+        if (vo.getObservation() != null) existing.setObservation(vo.getObservation());
+        if (vo.getBeltENUM() != null) existing.setBeltENUM(vo.getBeltENUM());
+        if (vo.getDegreeENUM() != null) existing.setDegreeENUM(vo.getDegreeENUM());
+        if (vo.getProjectId() != null) existing.setProjectId(vo.getProjectId());
 
         StudentModel saved = studentRepository.save(existing);
 
