@@ -2,10 +2,14 @@ package br.com.invictus.services;
 
 import br.com.invictus.data.vo.TeatcherVO;
 
+
+import br.com.invictus.data.vo.UserVO;
 import br.com.invictus.exceptions.ResourceNotFoundException;
 import br.com.invictus.mapper.DozerMapper;
 import br.com.invictus.model.TeatcherModel;
+import br.com.invictus.model.UserModel;
 import br.com.invictus.repositories.TeatcherRepository;
+import br.com.invictus.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,9 +85,6 @@ public class TeatcherService {
     }
 
     public TeatcherVO update(TeatcherVO vo) {
-
-        System.out.println("BASE64 RECEBIDO: " + vo.getPhotoBase64());
-
 
         Optional<TeatcherModel> existingOptional = teatcherRepository.findById(vo.getId());
 
