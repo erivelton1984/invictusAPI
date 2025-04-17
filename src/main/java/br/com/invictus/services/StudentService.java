@@ -9,12 +9,16 @@ import br.com.invictus.mapper.DozerMapper;
 import br.com.invictus.model.StudentModel;
 import br.com.invictus.model.TeatcherModel;
 
+import br.com.invictus.model.UserModel;
 import br.com.invictus.repositories.StudentRepository;
 import br.com.invictus.repositories.TeatcherRepository;
+import br.com.invictus.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -29,6 +33,9 @@ public class StudentService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public List<StudentVO> findAll(){
         logger.info("Finding all students.");
@@ -118,5 +125,20 @@ public class StudentService {
         StudentModel saved = studentRepository.save(existing);
 
         return DozerMapper.parseObject(saved, StudentVO.class);
+    }
+
+    @Transactional
+    public List<StudentVO> findStudentByProjectId(Long projectId) {
+
+        logger.info("Finding students by project id: {}" + projectId);
+
+        var students = studentRepository.findStudentByProjectId(projectId);
+
+        if (students == null || students.isEmpty()) {
+            logger.warning("No students found for project id: {}" + projectId);
+            return Collections.emptyList();
+        }
+
+        return DozerMapper.parseListObjects(students, StudentVO.class);
     }
 }

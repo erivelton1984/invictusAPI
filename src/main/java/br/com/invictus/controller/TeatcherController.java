@@ -40,9 +40,16 @@ public class TeatcherController {
     }
 
     @Operation(summary = "Get teatcher with teatcher name.")
-    @GetMapping("/name/{teatcherName}")
+    @GetMapping("/name/{firstNameTeatcher}")
     public List<TeatcherVO> findByUserName(@PathVariable String firstNameTeatcher){
         var vo = teatcherService.findByTeatcherName(firstNameTeatcher);
+        return vo;
+    }
+
+    @Operation(summary = "Get teatcher with teatcher name.")
+    @GetMapping("/email/{emailTeatcher}")
+    public List<TeatcherVO> findByEmail(@PathVariable String emailTeatcher){
+        var vo = teatcherService.findByEmail(emailTeatcher);
         return vo;
     }
 
@@ -108,6 +115,4 @@ public class TeatcherController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar professor");
         }
     }
-
-
 }

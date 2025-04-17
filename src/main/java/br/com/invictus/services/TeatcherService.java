@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -50,20 +51,18 @@ public class TeatcherService {
         }
     }
 
-    public List<TeatcherVO> findByTeatcherName(String teatcher){
+    @Transactional
+    public List<TeatcherVO> findByTeatcherName(String firstNameTeatcher) {
+        logger.info("Finding by name: " + firstNameTeatcher);
 
-        logger.info("Finding by name");
-        logger.info("Finding by name: {}" + teatcher);
+        var teatchers = teatcherRepository.findByTeatcherName(firstNameTeatcher.trim());
 
-        var teatcherName = teatcherRepository.findByTeatcherName("%" + teatcher.trim().toLowerCase() + "%");
-
-        if (teatcherName == null) {
-            logger.warning("No user found with name: {}" + teatcherName);
+        if (teatchers == null || teatchers.isEmpty()) {
+            logger.warning("No teatchers found with name: " + firstNameTeatcher);
+            return Collections.emptyList();
         }
 
-        var teatcherVO = DozerMapper.parseObject(teatcherName, TeatcherVO.class);
-
-        return Collections.singletonList(teatcherVO);
+        return DozerMapper.parseListObjects(teatchers, TeatcherVO.class);
     }
 
     public ResponseEntity<?> create(TeatcherVO teatcherVO) {
@@ -110,5 +109,17 @@ public class TeatcherService {
 
         return DozerMapper.parseObject(saved, TeatcherVO.class);
     }
+    @Transactional
+    public List<TeatcherVO> findByEmail(String emailTeatcher) {
+        logger.info("Finding by name: " + emailTeatcher);
 
+        var teatchers = teatcherRepository.findByEmail(emailTeatcher.trim());
+
+        if (teatchers == null || teatchers.isEmpty()) {
+            logger.warning("No teatchers found with name: " + emailTeatcher);
+            return Collections.emptyList();
+        }
+
+        return DozerMapper.parseListObjects(teatchers, TeatcherVO.class);
+    }
 }

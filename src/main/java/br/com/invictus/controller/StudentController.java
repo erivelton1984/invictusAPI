@@ -5,7 +5,13 @@ import br.com.invictus.data.vo.StudentVO;
 import br.com.invictus.enums.BeltENUM;
 import br.com.invictus.enums.DegreeENUM;
 import br.com.invictus.exceptions.ResourceNotFoundException;
+import br.com.invictus.mapper.DozerMapper;
+import br.com.invictus.model.StudentModel;
+import br.com.invictus.model.TeatcherModel;
+import br.com.invictus.repositories.StudentRepository;
+import br.com.invictus.repositories.TeatcherRepository;
 import br.com.invictus.services.StudentService;
+import br.com.invictus.services.TeatcherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +32,15 @@ public class StudentController {
 
     @Autowired
     StudentService studentService;
+
+    @Autowired
+    TeatcherRepository teatcherRepository;
+
+    @Autowired
+    StudentRepository studentRepository;
+
+    @Autowired
+    TeatcherService teatcherService;
 
     @Operation(summary = "Get a list of all student.")
     @GetMapping()
@@ -107,5 +122,8 @@ public class StudentController {
         }
     }
 
-
+    @GetMapping("/project/{projectId}")
+    public List<StudentVO> findStudentByProject(@PathVariable Long projectId) {
+        return studentService.findStudentByProjectId(projectId);
+    }
 }
