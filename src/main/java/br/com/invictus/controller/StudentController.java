@@ -94,7 +94,7 @@ public class StudentController {
             studentVO.setBirthDate(LocalDate.parse(birthDate));
             studentVO.setObservation(observation);
             studentVO.setBeltENUM(BeltENUM.fromDescription(beltENUM));
-            studentVO.setDegreeENUM(DegreeENUM.fromDescription(degreeENUM));
+            studentVO.setDegreeENUM(DegreeENUM.fromValue(degreeENUM));
             studentVO.setProjectId(projectId);
 
             if (photo != null && !photo.isEmpty()) {

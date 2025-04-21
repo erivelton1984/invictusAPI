@@ -1,5 +1,8 @@
 package br.com.invictus.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum DegreeENUM {
 
     SEM_GRAU(0, "Sem Grau"),
@@ -44,12 +47,29 @@ public enum DegreeENUM {
         return description;
     }
 
-    public static DegreeENUM fromDescription(String description) {
+    @JsonCreator
+    public static DegreeENUM fromValue(String value) {
+        if (value == null) return null;
+
+        // Tenta bater com o nome exato do enum (SEM_GRAU, UM, etc.)
         for (DegreeENUM degree : DegreeENUM.values()) {
-            if (degree.getDescription().equalsIgnoreCase(description)) {
+            if (degree.name().equalsIgnoreCase(value.replace(" ", "_"))) {
                 return degree;
             }
         }
-        throw new IllegalArgumentException("Unknown degree description: " + description);
+
+        // Ou tenta bater com a descrição (Sem Grau, Dois, Três...)
+        for (DegreeENUM degree : DegreeENUM.values()) {
+            if (degree.getDescription().equalsIgnoreCase(value)) {
+                return degree;
+            }
+        }
+
+        throw new IllegalArgumentException("Valor inválido para DegreeENUM: " + value);
+    }
+
+    @JsonValue
+    public String toJson() {
+        return name(); // ou getDescription(), se preferir retornar "Sem Grau", "Um", etc.
     }
 }

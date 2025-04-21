@@ -120,6 +120,6 @@ public class PasswordRecoveryService {
     }
 
     private String generateRecoveryLink(String resetPasswordToken) {
-        return "http://localhost:3000/portalBI/redefinirSenha";
+        return "http://localhost:3000/invictus/redefinirSenha";
     }
 }

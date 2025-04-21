@@ -85,7 +85,7 @@ public class TeatcherController {
             teatcherVO.setEnabled(enabled);
 
             teatcherVO.setBelt(BeltENUM.fromDescription(belt));
-            teatcherVO.setDegree(DegreeENUM.fromDescription(degree));
+            teatcherVO.setDegree(DegreeENUM.fromValue(degree));
 
             teatcherVO.setProjectId(projectId);
 
