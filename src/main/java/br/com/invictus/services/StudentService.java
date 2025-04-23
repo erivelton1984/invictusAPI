@@ -118,6 +118,7 @@ public class StudentService {
         if (vo.getStudentCellPhone() != null) existing.setStudentCellPhone(vo.getStudentCellPhone());
         if (vo.getStudentEmail() != null) existing.setStudentEmail(vo.getStudentEmail());
         if (vo.getObservation() != null) existing.setObservation(vo.getObservation());
+        if (vo.getStudentAge() != null) existing.setStudentAge(vo.getStudentAge());
         if (vo.getBeltENUM() != null) existing.setBeltENUM(vo.getBeltENUM());
         if (vo.getDegreeENUM() != null) existing.setDegreeENUM(vo.getDegreeENUM());
         if (vo.getProjectId() != null) existing.setProjectId(vo.getProjectId());
