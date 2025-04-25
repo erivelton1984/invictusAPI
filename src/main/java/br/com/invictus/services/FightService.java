@@ -42,8 +42,8 @@ public class FightService {
                     double weight2 = Double.parseDouble(fighter2.getWeightFighter());
 
                     if (Math.abs(weight1 - weight2) <= 10 &&
-                            Math.abs(fighter1.getAgeOfFighter() - fighter2.getAgeOfFighter()) <= 5) {
-
+                            Math.abs(fighter1.getAgeOfFighter() - fighter2.getAgeOfFighter()) <= 5 &&
+                            fighter1.getBeltOfFighter().equalsIgnoreCase(fighter2.getBeltOfFighter())) {
                         List<FighterVO> key = new ArrayList<>();
                         key.add(fighter1);
                         key.add(fighter2);

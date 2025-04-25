@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/invictus/fight")
+@RequestMapping("/api/invictus/fight/v1")
 public class FightController {
 
     @Autowired
