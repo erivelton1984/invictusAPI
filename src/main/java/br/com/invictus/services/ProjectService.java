@@ -24,7 +24,6 @@ public class ProjectService {
     @Autowired
     ProjectRepository projectRepository;
 
-
     public List<ProjectVO> findAll(){
         logger.info("Finding all projects.");
 
@@ -110,5 +109,15 @@ public class ProjectService {
         ProjectModel saved = projectRepository.save(existing);
 
         return DozerMapper.parseObject(saved, ProjectVO.class);
+    }
+
+    public void delete(Long id) {
+
+        logger.info("Deleting one user!");
+
+        var entity = projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+
+        projectRepository.delete(entity);
     }
 }

@@ -1,6 +1,5 @@
 package br.com.invictus.controller;
 
-
 import br.com.invictus.data.vo.StudentVO;
 import br.com.invictus.enums.BeltENUM;
 import br.com.invictus.enums.DegreeENUM;
@@ -25,7 +24,7 @@ import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
 
-@Tag(name = "Endopint de Listagem, Criação, Update, Delete of Students.")
+@Tag(name = "Endpoint for listing, creating, updating and deleting of students.")
 @RestController
 @RequestMapping("/api/invictus/student/v1")
 public class StudentController {
@@ -60,6 +59,32 @@ public class StudentController {
     public List<StudentVO> findByUserName(@PathVariable String studentName){
         var vo = studentService.findByStudentName(studentName);
         return vo;
+    }
+
+    @Operation(summary = "Update em student.")
+    @PutMapping
+    public ResponseEntity<?> updateStudent(@RequestBody StudentVO studentVO) {
+        try {
+            StudentVO updated = studentService.update(studentVO);
+            return ResponseEntity.ok(updated);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aluno não encontrado");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar aluno");
+        }
+    }
+
+    @GetMapping("/project/{projectId}")
+    public List<StudentVO> findStudentByProject(@PathVariable Long projectId) {
+        return studentService.findStudentByProjectId(projectId);
+    }
+
+    @Operation(summary = "Delete a student.")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+        studentService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Method to create one student with photo.")
@@ -106,24 +131,5 @@ public class StudentController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar a imagem.");
         }
-    }
-
-    @Operation(summary = "Update em student.")
-    @PutMapping
-    public ResponseEntity<?> updateStudent(@RequestBody StudentVO studentVO) {
-        try {
-            StudentVO updated = studentService.update(studentVO);
-            return ResponseEntity.ok(updated);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aluno não encontrado");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar aluno");
-        }
-    }
-
-    @GetMapping("/project/{projectId}")
-    public List<StudentVO> findStudentByProject(@PathVariable Long projectId) {
-        return studentService.findStudentByProjectId(projectId);
     }
 }

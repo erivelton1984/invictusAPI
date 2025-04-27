@@ -1,6 +1,5 @@
 package br.com.invictus.services;
 
-
 import br.com.invictus.data.vo.UserVO;
 import br.com.invictus.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
-
 
 @Service
 public class UserServices implements UserDetailsService {

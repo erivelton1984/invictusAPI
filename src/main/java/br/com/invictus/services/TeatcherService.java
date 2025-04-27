@@ -65,6 +65,20 @@ public class TeatcherService {
         return DozerMapper.parseListObjects(teatchers, TeatcherVO.class);
     }
 
+    @Transactional
+    public List<TeatcherVO> findByEmail(String emailTeatcher) {
+        logger.info("Finding by name: " + emailTeatcher);
+
+        var teatchers = teatcherRepository.findByEmail(emailTeatcher.trim());
+
+        if (teatchers == null || teatchers.isEmpty()) {
+            logger.warning("No teatchers found with name: " + emailTeatcher);
+            return Collections.emptyList();
+        }
+
+        return DozerMapper.parseListObjects(teatchers, TeatcherVO.class);
+    }
+
     public ResponseEntity<?> create(TeatcherVO teatcherVO) {
         var existingTeatchers = teatcherRepository.findByTeatcherName(teatcherVO.getFirstNameTeatcher());
 
@@ -109,17 +123,14 @@ public class TeatcherService {
 
         return DozerMapper.parseObject(saved, TeatcherVO.class);
     }
-    @Transactional
-    public List<TeatcherVO> findByEmail(String emailTeatcher) {
-        logger.info("Finding by name: " + emailTeatcher);
 
-        var teatchers = teatcherRepository.findByEmail(emailTeatcher.trim());
+    public void delete(Long id) {
 
-        if (teatchers == null || teatchers.isEmpty()) {
-            logger.warning("No teatchers found with name: " + emailTeatcher);
-            return Collections.emptyList();
-        }
+        logger.info("Deleting one user!");
 
-        return DozerMapper.parseListObjects(teatchers, TeatcherVO.class);
+        var entity = teatcherRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+
+        teatcherRepository.delete(entity);
     }
 }

@@ -4,6 +4,8 @@ import br.com.invictus.data.vo.FighterVO;
 import br.com.invictus.services.ExcelService;
 import br.com.invictus.services.FightService;
 import br.com.invictus.services.SpreadSheetService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+@Tag(name = "Endopint for uploaded spreadsheet and create a keys of fighters.")
 @RestController
 @RequestMapping("/api/invictus/fight/v1")
 public class FightController {
@@ -28,12 +31,14 @@ public class FightController {
     @Autowired
     private SpreadSheetService spreadSheetService;
 
+    @Operation(summary = "Readeing spreadsheet uploaded.")
     @PostMapping("/upload")
     public List<List<FighterVO>> uploadSpreadSheet(@RequestParam("file") MultipartFile file) throws IOException {
         List<FighterVO> fighters = spreadSheetService.readSpreadSheet(file);
         return fightService.generateKeys(fighters);
     }
 
+    @Operation(summary = "Genereted a keys for fighting.")
     @PostMapping("/generateExcel")
     public ResponseEntity<byte[]> generateFightExcel(@RequestParam("file") MultipartFile file) throws IOException {
         // Ler os lutadores da planilha

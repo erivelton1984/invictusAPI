@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Endopint de Listagem, Criação, Update, Delete de Usuários.")
+@Tag(name = "Endopint for listing, creating, updating and deleting of users..")
 @RestController
 @RequestMapping("/api/invictus/user/v1")
 public class UserController {
@@ -29,27 +29,27 @@ public class UserController {
     @Autowired
     private PermissionService permissionService;
 
-    @Operation(summary = "Obtém uma lista de todos os usuários.")
+    @Operation(summary = "Get a list of all users.")
     @GetMapping()
     public List<UserVO> findAll(){
         return ResponseEntity.ok(usuarioService.findAll()).getBody();
     }
 
-    @Operation(summary = "Obtém usuário através do ID.")
+    @Operation(summary = "Get users with ID.")
     @GetMapping("/{id}")
     public UserVO findById(@PathVariable Long id){
         var vo = usuarioService.findById(id);
         return vo;
     }
 
-    @Operation(summary = "Obtém usuário através do nome.")
+    @Operation(summary = "Get user with name.")
     @GetMapping("/name/{userName}")
     public UserVO findByUserName(@PathVariable String userName){
         var vo = usuarioService.findUsuarioByName(userName);
         return vo;
     }
 
-    @Operation(summary = "Cria um novo usuário.")
+    @Operation(summary = "Create a new user.")
     @PostMapping(value = "/signup")
     public ResponseEntity<?> create(@RequestBody UserVO userVO) {
 
@@ -63,29 +63,30 @@ public class UserController {
         return response;
     }
 
-    @Operation(summary = "Update em usuário.")
+    @Operation(summary = "Update a user.")
     @PutMapping
     public UserVO update(@RequestBody UserVO userVO) {
         return usuarioService.update(userVO);
     }
 
-    @Operation(summary = "Exclui um usuário.")
+    @Operation(summary = "Delete a user.")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Cheking if the parameters id nul or not.")
     private boolean checkIfParamsIsNotNull(UserVO userVO) {
         AccountCredentialsVO accountCredentialsVO = new AccountCredentialsVO(userVO.getUserName(), userVO.getPassword());
          return accountCredentialsVO == null || accountCredentialsVO.getUserName() == null || accountCredentialsVO.getUserName().isBlank()
                 || accountCredentialsVO.getPassword() == null || accountCredentialsVO.getPassword().isBlank();
     }
 
+    @Operation(summary = "Get levels.")
     @GetMapping("/levels")
     public ResponseEntity<List<PermissionModel>> getUserLevels() {
         List<PermissionModel> levels = permissionService.getUserLevels();
         return ResponseEntity.ok(levels);
     }
-
 }

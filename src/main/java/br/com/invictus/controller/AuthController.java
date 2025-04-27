@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@Tag(name = "Endopint de autenticação.")
+@Tag(name = "Authentication endpoint.")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -30,9 +30,8 @@ public class AuthController {
     @Autowired
     PasswordRecoveryService passwordRecoveryService;
 
-
     @SuppressWarnings("rawtypes")
-    @Operation(summary = "Autenticando usuário e retornando token.")
+    @Operation(summary = "Authenticating user and returning token.")
     @PostMapping(value = "/signin")
     public ResponseEntity signin(@RequestBody AccountCredentialsVO data) {
 
@@ -46,6 +45,7 @@ public class AuthController {
         return accessToken;
     }
 
+    @Operation(summary = "Check if parameter is null with credential.")
     private boolean checkIfParamsIsNotNull(AccountCredentialsVO data) {
         return data == null || data.getUserName() == null || data.getUserName().isBlank()
                 || data.getPassword() == null || data.getPassword().isBlank();
@@ -54,8 +54,7 @@ public class AuthController {
     @SuppressWarnings("rawtypes")
     @Operation(summary = "Refresh do token para usuário autenticado e retornando um token.")
     @PutMapping(value = "/refresh/{username}")
-    public ResponseEntity refreshToken(@PathVariable("username") String username,
-                                       @RequestHeader("Authorization") String refreshToken) {
+    public ResponseEntity refreshToken(@PathVariable("username") String username, @RequestHeader("Authorization") String refreshToken) {
         if (checkIfParamsIsNotNull(username, refreshToken))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 
@@ -65,7 +64,7 @@ public class AuthController {
         return accessToken;
     }
 
-    @Operation(summary = "Preenchimento de informações para recebimento de e-mail com link para redefinir senha.")
+    @Operation(summary = "Filling in information to receive an email with a link to reset your password.")
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody PasswordRecoveryRequestVO request) {
         try {
@@ -76,7 +75,7 @@ public class AuthController {
         }
     }
 
-    @Operation(summary = "Preenchimento dos campos para redefinir a senha o usuário.")
+    @Operation(summary = "Filling in the fields to reset the user's password.")
     @PostMapping("/new-password")
     public ResponseEntity<String> newPassword(@RequestBody UserVO userVO) {
         try {
@@ -87,6 +86,7 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Check if parameter is null or not passing username and refresh token.")
     private boolean checkIfParamsIsNotNull(String username, String refreshToken) {
         return refreshToken == null || refreshToken.isBlank() ||
                 username == null || username.isBlank();

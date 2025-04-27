@@ -58,21 +58,4 @@ public class FightService {
 
         return keys;
     }
-
 }
-//List<List<FighterVO>> chaves = new ArrayList<>();
-// Implementar a lógica para casar os FighterVOes
-        /*for (int i = 0; i < FighterVOes.size(); i++) {
-            for (int j = i + 1; j < FighterVOes.size(); j++) {
-                FighterVO FighterVO1 = FighterVOes.get(i);
-                FighterVO FighterVO2 = FighterVOes.get(j);
-                if (Math.abs(FighterVO1.getPeso() - FighterVO2.getPeso()) <= 5 &&
-                    Math.abs(FighterVO1.getKeyade() - FighterVO2.getKeyade()) <= 5){
-                    List<FighterVO> chave = new ArrayList<>();
-                    chave.add(FighterVO1);
-                    chave.add(FighterVO2);
-                    chaves.add(chave);
-                }
-            }
-        }
-        return chaves;*/

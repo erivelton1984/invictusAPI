@@ -75,6 +75,21 @@ public class StudentService {
         return Collections.singletonList(studentVO);
     }
 
+    @Transactional
+    public List<StudentVO> findStudentByProjectId(Long projectId) {
+
+        logger.info("Finding students by project id: {}" + projectId);
+
+        var students = studentRepository.findStudentByProjectId(projectId);
+
+        if (students == null || students.isEmpty()) {
+            logger.warning("No students found for project id: {}" + projectId);
+            return Collections.emptyList();
+        }
+
+        return DozerMapper.parseListObjects(students, StudentVO.class);
+    }
+
     public ResponseEntity<?> create(StudentVO studentVO) {
 
         var student = studentRepository.findByStudentName(studentVO.getStudentName());
@@ -128,18 +143,13 @@ public class StudentService {
         return DozerMapper.parseObject(saved, StudentVO.class);
     }
 
-    @Transactional
-    public List<StudentVO> findStudentByProjectId(Long projectId) {
+    public void delete(Long id) {
 
-        logger.info("Finding students by project id: {}" + projectId);
+        logger.info("Deleting one user!");
 
-        var students = studentRepository.findStudentByProjectId(projectId);
+        var entity = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 
-        if (students == null || students.isEmpty()) {
-            logger.warning("No students found for project id: {}" + projectId);
-            return Collections.emptyList();
-        }
-
-        return DozerMapper.parseListObjects(students, StudentVO.class);
+        studentRepository.delete(entity);
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Endopint of List, Create, Update, Delete of Project.")
+@Tag(name = "Endpoint for listing, creating, updating and deleting of projects.")
 @RestController
 @RequestMapping("/api/invictus/project/v1")
 public class ProjectController {
@@ -64,5 +64,12 @@ public class ProjectController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar projeto");
         }
+    }
+
+    @Operation(summary = "Delete a project.")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+        projectService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
 
-@Tag(name = "Endopint de Listagem, Criação, Update, Delete of Teatchers.")
+@Tag(name = "Endopint for listing, creating, updating and deleting of teatchers..")
 @RestController
 @RequestMapping("/api/invictus/teatcher/v1")
 public class TeatcherController {
@@ -51,6 +51,27 @@ public class TeatcherController {
     public List<TeatcherVO> findByEmail(@PathVariable String emailTeatcher){
         var vo = teatcherService.findByEmail(emailTeatcher);
         return vo;
+    }
+
+    @Operation(summary = "Update em professor.")
+    @PutMapping
+    public ResponseEntity<?> updateTeatcher(@RequestBody TeatcherVO teatcherVO) {
+        try {
+            TeatcherVO updated = teatcherService.update(teatcherVO);
+            return ResponseEntity.ok(updated);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Professor não encontrado");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar professor");
+        }
+    }
+
+    @Operation(summary = "Delete a teatcher.")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+        teatcherService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Method to create one teatcher with photo.")
@@ -89,30 +110,14 @@ public class TeatcherController {
 
             teatcherVO.setProjectId(projectId);
 
-
-
             if (photo != null && !photo.isEmpty()) {
                 String base64Image = Base64.getEncoder().encodeToString(photo.getBytes());
                 teatcherVO.setPhotoBase64(base64Image);
             }
-
             return teatcherService.create(teatcherVO);
+
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar a imagem.");
-        }
-    }
-
-    @Operation(summary = "Update em professor.")
-    @PutMapping
-    public ResponseEntity<?> updateTeatcher(@RequestBody TeatcherVO teatcherVO) {
-        try {
-            TeatcherVO updated = teatcherService.update(teatcherVO);
-            return ResponseEntity.ok(updated);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Professor não encontrado");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar professor");
         }
     }
 }
