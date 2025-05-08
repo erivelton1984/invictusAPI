@@ -25,22 +25,30 @@ public class CalendarController {
     @Autowired
     CalendarService calendarService;
 
-    @Operation(summary = "Endpoint for create a new event in calendar.")
-    @PostMapping
-    public ResponseEntity<?> createEvent(@RequestBody CalendarVO calendarVO) throws IOException {
-        return calendarService.create(calendarVO);
-    }
-
     @Operation(summary = "Endpoint for get all event in calendar.")
     @GetMapping
     public List<CalendarVO> getAllEvents() {
         return calendarService.findAll();
     }
 
+    @Operation(summary = "Endpoint for create a new event in calendar.")
+    @PostMapping
+    public ResponseEntity<?> createEvent(@RequestBody CalendarVO calendarVO) throws IOException {
+        return calendarService.create(calendarVO);
+    }
+
+    @Operation(summary = "Endpoint for create a new event in calendar.")
+    @PutMapping
+    public CalendarVO updateEvent(@RequestBody CalendarVO calendarVO) throws IOException {
+        return calendarService.update(calendarVO);
+
+    }
+
     @DeleteMapping("/{id}")
     public void deleteCalendar(@PathVariable Long id) {
         calendarService.delete(id);
     }
+
 
 
 }

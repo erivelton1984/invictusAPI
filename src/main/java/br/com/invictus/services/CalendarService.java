@@ -69,11 +69,11 @@ public class CalendarService {
         var event = calendarRepository.findByTitle(calendarVO.getTitle());
 
         try{
-            // Verifica se o usuário já existe
-            if (event == null) {
+            /* Verifica se o usuário já existe
+            if (event != null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                         .body("Event exist!");
-            }
+            }*/
 
             var calendarModel = DozerMapper.parseObject(calendarVO, CalendarModel.class);
             var savedCalendar = calendarRepository.save(calendarModel);
