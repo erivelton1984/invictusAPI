@@ -10,7 +10,7 @@ security:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/invictus-api?useTimezone=true&serverTimezone=UTC
+    url: jdbc:postgresql://localhost:5432/invictus-api?useTimezone=true&serverTimezone=UTC
     username: postgres
     password: p3dr03th4n
   jpa:

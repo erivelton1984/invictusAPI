@@ -63,6 +63,7 @@ public class TeatcherModel implements Serializable {
     @Column(name = "photo_base64")
     private String photoBase64;
 
+
     public Long getId() {
         return id;
     }
@@ -185,13 +186,13 @@ public class TeatcherModel implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TeatcherModel that)) return false;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getFirstNameTeatcher(), that.getFirstNameTeatcher()) && Objects.equals(getLastNameTeatcher(), that.getLastNameTeatcher()) && Objects.equals(getBirthDateTeatcher(), that.getBirthDateTeatcher()) && Objects.equals(getWeightTeatcher(), that.getWeightTeatcher()) && Objects.equals(getAddressTeatcher(), that.getAddressTeatcher()) && Objects.equals(getGenderTeatcher(), that.getGenderTeatcher()) && Objects.equals(getEmailTeatcher(), that.getEmailTeatcher()) && Objects.equals(getPhoneTeatcher(), that.getPhoneTeatcher()) && Objects.equals(getPhoneTeatcherTwo(), that.getPhoneTeatcherTwo()) && Objects.equals(getEnabled(), that.getEnabled()) && getBelt() == that.getBelt() && getDegree() == that.getDegree() && Objects.equals(getProjectId(), that.getProjectId()) && Objects.equals(getPhotoBase64(), that.getPhotoBase64());
+        if (o == null || getClass() != o.getClass()) return false;
+        TeatcherModel that = (TeatcherModel) o;
+        return Objects.equals(id, that.id) && Objects.equals(firstNameTeatcher, that.firstNameTeatcher) && Objects.equals(lastNameTeatcher, that.lastNameTeatcher) && Objects.equals(birthDateTeatcher, that.birthDateTeatcher) && Objects.equals(weightTeatcher, that.weightTeatcher) && Objects.equals(addressTeatcher, that.addressTeatcher) && Objects.equals(genderTeatcher, that.genderTeatcher) && Objects.equals(emailTeatcher, that.emailTeatcher) && Objects.equals(phoneTeatcher, that.phoneTeatcher) && Objects.equals(phoneTeatcherTwo, that.phoneTeatcherTwo) && Objects.equals(enabled, that.enabled) && belt == that.belt && degree == that.degree && Objects.equals(projectId, that.projectId) && Objects.equals(photoBase64, that.photoBase64);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstNameTeatcher(), getLastNameTeatcher(), getBirthDateTeatcher(), getWeightTeatcher(), getAddressTeatcher(), getGenderTeatcher(), getEmailTeatcher(), getPhoneTeatcher(), getPhoneTeatcherTwo(), getEnabled(), getBelt(), getDegree(), getProjectId(), getPhotoBase64());
+        return Objects.hash(id, firstNameTeatcher, lastNameTeatcher, birthDateTeatcher, weightTeatcher, addressTeatcher, genderTeatcher, emailTeatcher, phoneTeatcher, phoneTeatcherTwo, enabled, belt, degree, projectId, photoBase64);
     }
 }

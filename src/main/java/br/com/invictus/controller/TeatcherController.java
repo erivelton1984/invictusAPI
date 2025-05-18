@@ -3,6 +3,7 @@ package br.com.invictus.controller;
 import br.com.invictus.data.vo.TeatcherVO;
 import br.com.invictus.enums.BeltENUM;
 import br.com.invictus.enums.DegreeENUM;
+import br.com.invictus.exceptions.ResourceNotFoundException;
 import br.com.invictus.services.TeatcherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
 
-@Tag(name = "Endopint de Listagem, Criação, Update, Delete of Teatchers.")
+@Tag(name = "Endopint for listing, creating, updating and deleting of teatchers..")
 @RestController
 @RequestMapping("/api/invictus/teatcher/v1")
 public class TeatcherController {
@@ -39,10 +40,38 @@ public class TeatcherController {
     }
 
     @Operation(summary = "Get teatcher with teatcher name.")
-    @GetMapping("/name/{teatcherName}")
+    @GetMapping("/name/{firstNameTeatcher}")
     public List<TeatcherVO> findByUserName(@PathVariable String firstNameTeatcher){
         var vo = teatcherService.findByTeatcherName(firstNameTeatcher);
         return vo;
+    }
+
+    @Operation(summary = "Get teatcher with teatcher name.")
+    @GetMapping("/email/{emailTeatcher}")
+    public List<TeatcherVO> findByEmail(@PathVariable String emailTeatcher){
+        var vo = teatcherService.findByEmail(emailTeatcher);
+        return vo;
+    }
+
+    @Operation(summary = "Update em professor.")
+    @PutMapping
+    public ResponseEntity<?> updateTeatcher(@RequestBody TeatcherVO teatcherVO) {
+        try {
+            TeatcherVO updated = teatcherService.update(teatcherVO);
+            return ResponseEntity.ok(updated);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Professor não encontrado");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar professor");
+        }
+    }
+
+    @Operation(summary = "Delete a teatcher.")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+        teatcherService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Method to create one teatcher with photo.")
@@ -77,22 +106,18 @@ public class TeatcherController {
             teatcherVO.setEnabled(enabled);
 
             teatcherVO.setBelt(BeltENUM.fromDescription(belt));
-            teatcherVO.setDegree(DegreeENUM.fromDescription(degree));
+            teatcherVO.setDegree(DegreeENUM.fromValue(degree));
 
             teatcherVO.setProjectId(projectId);
-
-
 
             if (photo != null && !photo.isEmpty()) {
                 String base64Image = Base64.getEncoder().encodeToString(photo.getBytes());
                 teatcherVO.setPhotoBase64(base64Image);
             }
-
             return teatcherService.create(teatcherVO);
+
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar a imagem.");
         }
     }
-
-
 }

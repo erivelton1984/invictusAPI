@@ -1,9 +1,11 @@
 package br.com.invictus.services;
 
 import br.com.invictus.data.vo.ProjectVO;
+import br.com.invictus.data.vo.TeatcherVO;
 import br.com.invictus.exceptions.ResourceNotFoundException;
 import br.com.invictus.mapper.DozerMapper;
 import br.com.invictus.model.ProjectModel;
+import br.com.invictus.model.TeatcherModel;
 import br.com.invictus.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -20,7 +23,6 @@ public class ProjectService {
 
     @Autowired
     ProjectRepository projectRepository;
-
 
     public List<ProjectVO> findAll(){
         logger.info("Finding all projects.");
@@ -82,5 +84,40 @@ public class ProjectService {
                     .body("Falha ao criar o projeto: " + e.getMessage());
         }
 
+    }
+
+    public ProjectVO update(ProjectVO vo) {
+
+       Optional<ProjectModel> existingOptional = projectRepository.findById(vo.getId());
+
+        if (!existingOptional.isPresent()) {
+            throw new ResourceNotFoundException("Projeto não encontrado com ID: " + vo.getId());
+        }
+
+        ProjectModel existing = existingOptional.get();
+
+        // Atualiza os campos recebidos do frontend
+        existing.setProjectName(vo.getProjectName());
+        existing.setProjectAddress(vo.getProjectAddress());
+        existing.setEmailProject(vo.getEmailProject());
+        existing.setProjectPhone(vo.getProjectPhone());
+        existing.setProjectPhoneTwo(vo.getProjectPhoneTwo());
+        existing.setEmailProject(vo.getEmailProject());
+        existing.setClassSchedule(vo.getClassSchedule());
+
+
+        ProjectModel saved = projectRepository.save(existing);
+
+        return DozerMapper.parseObject(saved, ProjectVO.class);
+    }
+
+    public void delete(Long id) {
+
+        logger.info("Deleting one user!");
+
+        var entity = projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+
+        projectRepository.delete(entity);
     }
 }

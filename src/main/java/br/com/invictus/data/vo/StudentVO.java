@@ -4,6 +4,7 @@ package br.com.invictus.data.vo;
 import br.com.invictus.enums.BeltENUM;
 import br.com.invictus.enums.DegreeENUM;
 import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,12 +22,16 @@ public class StudentVO implements Serializable {
     private String studentPhone;
     private String studentCellPhone;
     private String studentEmail;
+    private String genderStudent;
     private LocalDate birthDate;
+    private Integer studentAge;
+    private String studentWeight;
     private String observation;
     private BeltENUM beltENUM;
     private DegreeENUM degreeENUM;
     private Long projectId;
     private Long teatcherId;
+    private String photoBase64;
 
     public StudentVO() {
     }
@@ -95,12 +100,36 @@ public class StudentVO implements Serializable {
         this.studentEmail = studentEmail;
     }
 
+    public String getGenderStudent() {
+        return genderStudent;
+    }
+
+    public void setGenderStudent(String genderStudent) {
+        this.genderStudent = genderStudent;
+    }
+
     public LocalDate getBirthDate() {
         return birthDate;
     }
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Integer getStudentAge() {
+        return studentAge;
+    }
+
+    public void setStudentAge(Integer studentAge) {
+        this.studentAge = studentAge;
+    }
+
+    public String getStudentWeight() {
+        return studentWeight;
+    }
+
+    public void setStudentWeight(String studentWeight) {
+        this.studentWeight = studentWeight;
     }
 
     public String getObservation() {
@@ -143,15 +172,23 @@ public class StudentVO implements Serializable {
         this.teatcherId = teatcherId;
     }
 
+    public String getPhotoBase64() {
+        return photoBase64;
+    }
+
+    public void setPhotoBase64(String photoBase64) {
+        this.photoBase64 = photoBase64;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof StudentVO studentVO)) return false;
-        return Objects.equals(getId(), studentVO.getId()) && Objects.equals(getStudentName(), studentVO.getStudentName()) && Objects.equals(getRg(), studentVO.getRg()) && Objects.equals(getCpf(), studentVO.getCpf()) && Objects.equals(getStudentAddress(), studentVO.getStudentAddress()) && Objects.equals(getStudentPhone(), studentVO.getStudentPhone()) && Objects.equals(getStudentCellPhone(), studentVO.getStudentCellPhone()) && Objects.equals(getStudentEmail(), studentVO.getStudentEmail()) && Objects.equals(getBirthDate(), studentVO.getBirthDate()) && Objects.equals(getObservation(), studentVO.getObservation()) && getBeltENUM() == studentVO.getBeltENUM() && getDegreeENUM() == studentVO.getDegreeENUM() && Objects.equals(getProjectId(), studentVO.getProjectId()) && Objects.equals(getTeatcherId(), studentVO.getTeatcherId());
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentVO studentVO = (StudentVO) o;
+        return Objects.equals(id, studentVO.id) && Objects.equals(studentName, studentVO.studentName) && Objects.equals(rg, studentVO.rg) && Objects.equals(cpf, studentVO.cpf) && Objects.equals(studentAddress, studentVO.studentAddress) && Objects.equals(studentPhone, studentVO.studentPhone) && Objects.equals(studentCellPhone, studentVO.studentCellPhone) && Objects.equals(studentEmail, studentVO.studentEmail) && Objects.equals(genderStudent, studentVO.genderStudent) && Objects.equals(birthDate, studentVO.birthDate) && Objects.equals(studentAge, studentVO.studentAge) && Objects.equals(studentWeight, studentVO.studentWeight) && Objects.equals(observation, studentVO.observation) && beltENUM == studentVO.beltENUM && degreeENUM == studentVO.degreeENUM && Objects.equals(projectId, studentVO.projectId) && Objects.equals(teatcherId, studentVO.teatcherId) && Objects.equals(photoBase64, studentVO.photoBase64);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStudentName(), getRg(), getCpf(), getStudentAddress(), getStudentPhone(), getStudentCellPhone(), getStudentEmail(), getBirthDate(), getObservation(), getBeltENUM(), getDegreeENUM(), getProjectId(), getTeatcherId());
+        return Objects.hash(id, studentName, rg, cpf, studentAddress, studentPhone, studentCellPhone, studentEmail, genderStudent, birthDate, studentAge, studentWeight, observation, beltENUM, degreeENUM, projectId, teatcherId, photoBase64);
     }
 }
