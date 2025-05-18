@@ -1,5 +1,6 @@
 package br.com.invictus.controller;
 
+import br.com.invictus.data.vo.FightVO;
 import br.com.invictus.data.vo.FighterVO;
 import br.com.invictus.services.ExcelService;
 import br.com.invictus.services.FightService;
@@ -12,12 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-@Tag(name = "Endopint for uploaded spreadsheet and create a keys of fighters.")
+@Tag(name = "Endpoint for uploading spreadsheet and creating fighter keys")
 @RestController
 @RequestMapping("/api/invictus/fight/v1")
 public class FightController {
@@ -31,34 +31,34 @@ public class FightController {
     @Autowired
     private SpreadSheetService spreadSheetService;
 
-    @Operation(summary = "Readeing spreadsheet uploaded.")
+
+    @Operation(summary = "Read spreadsheet uploaded and generate fight keys")
     @PostMapping("/upload")
-    public List<List<FighterVO>> uploadSpreadSheet(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<List<FighterVO>> uploadSpreadSheet(@RequestParam("file") MultipartFile file) throws IOException {
         List<FighterVO> fighters = spreadSheetService.readSpreadSheet(file);
-        return fightService.generateKeys(fighters);
+
+        return ResponseEntity.ok(fightService.generateKeys(fighters));
     }
 
-    @Operation(summary = "Genereted a keys for fighting.")
+    @Operation(summary = "Generate an Excel file with the fights keys already created")
     @PostMapping("/generateExcel")
-    public ResponseEntity<byte[]> generateFightExcel(@RequestParam("file") MultipartFile file) throws IOException {
-        // Ler os lutadores da planilha
-        List<FighterVO> fighters = spreadSheetService.readSpreadSheet(file);
+    public ResponseEntity<byte[]> generateFightExcel() throws IOException {
+        List<FightVO> fightPairs = fightService.getFightPairs();
 
-        // Gerar as chaves das lutas
-        List<List<FighterVO>> fightKeys = fightService.generateKeys(fighters);
+        ByteArrayOutputStream excelFile = excelService.generateFightExcel(fightPairs);
 
-        // Gerar o arquivo Excel
-        ByteArrayOutputStream excelFile = excelService.generateFightExcel(fightKeys);
-
-        // Definir o cabeçalho para download
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=lutas_casadas.xlsx");
         headers.add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-        // Retornar a resposta com o arquivo
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(excelFile.toByteArray());
     }
 
+    @Operation(summary = "Get the generated fight keys")
+    @GetMapping("/fightKeys")
+    public ResponseEntity<List<FightVO>> getFightKeys() {
+        return ResponseEntity.ok(fightService.getFightPairs());
+    }
 }
