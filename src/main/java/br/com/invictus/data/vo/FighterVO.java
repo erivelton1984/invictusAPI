@@ -10,6 +10,7 @@ public class FighterVO {
     private String beltOfFighter;
     private int ageOfFighter;
     private String genderOfFighter;
+    private String categoryOfFighter; // <<=== novo campo adicionado!
 
     public FighterVO() {
     }
@@ -62,15 +63,29 @@ public class FighterVO {
         this.genderOfFighter = genderOfFighter;
     }
 
+    public String getCategoryOfFighter() {
+        return categoryOfFighter;
+    }
+
+    public void setCategoryOfFighter(String categoryOfFighter) {
+        this.categoryOfFighter = categoryOfFighter;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         FighterVO fighterVO = (FighterVO) o;
-        return ageOfFighter == fighterVO.ageOfFighter && Objects.equals(nameFighter, fighterVO.nameFighter) && Objects.equals(academyProjectFighter, fighterVO.academyProjectFighter) && Objects.equals(weightFighter, fighterVO.weightFighter) && Objects.equals(beltOfFighter, fighterVO.beltOfFighter) && Objects.equals(genderOfFighter, fighterVO.genderOfFighter);
+        return ageOfFighter == fighterVO.ageOfFighter &&
+                Objects.equals(nameFighter, fighterVO.nameFighter) &&
+                Objects.equals(academyProjectFighter, fighterVO.academyProjectFighter) &&
+                Objects.equals(weightFighter, fighterVO.weightFighter) &&
+                Objects.equals(beltOfFighter, fighterVO.beltOfFighter) &&
+                Objects.equals(genderOfFighter, fighterVO.genderOfFighter) &&
+                Objects.equals(categoryOfFighter, fighterVO.categoryOfFighter); // Adicionado no equals
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nameFighter, academyProjectFighter, weightFighter, beltOfFighter, ageOfFighter, genderOfFighter);
+        return Objects.hash(nameFighter, academyProjectFighter, weightFighter, beltOfFighter, ageOfFighter, genderOfFighter, categoryOfFighter);
     }
 }
