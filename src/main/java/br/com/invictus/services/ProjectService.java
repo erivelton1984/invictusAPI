@@ -83,7 +83,6 @@ public class ProjectService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Falha ao criar o projeto: " + e.getMessage());
         }
-
     }
 
     public ProjectVO update(ProjectVO vo) {
