@@ -17,9 +17,9 @@ security:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/portaldb?useTimezone=true&serverTimezone=UTC
-    username: portaluser
-    password: p3dr03th4n
+    url: jdbc:postgresql://localhost:5432/invictus?useTimezone=true&serverTimezone=UTC
+    username: postregs
+    password: 1nv1ctvs
   jpa:
     open-in-view: false
     hibernate:
