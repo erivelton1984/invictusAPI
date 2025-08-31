@@ -9,6 +9,14 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
 import java.util.List;
 
 @Configuration
@@ -48,12 +56,40 @@ public class WebConfig implements WebMvcConfigurer {
         ;
     }
 
-    @Override
+    /*@Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:8081", "http://localhost:3000", "http://localhost:*", "http://3.144.221.193", "*")  // Domínio de onde as requisições vêm
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // Métodos permitidos
                 .allowedHeaders("*")  // Permitir todos os cabeçalhos
                 .allowCredentials(true);
+    }*/
+
+	 // Configuração de CORS global
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of(
+            "http://localhost:3000",   // Frontend local
+            "http://localhost:8081",   // Outra porta local se usar
+            "http://3.144.221.193"    // IP público da EC2
+        ));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(source);
+    }
+
+    // Configuração do Spring Security para liberar acesso externo
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()) // libera todos os endpoints
+            .csrf(csrf -> csrf.disable()); // desabilita CSRF para facilitar testes externos
+        return http.build();
     }
 }
