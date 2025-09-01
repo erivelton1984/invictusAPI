@@ -85,11 +85,11 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     // Configuração do Spring Security para liberar acesso externo
-    @Bean
+   /* @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()) // libera todos os endpoints
             .csrf(csrf -> csrf.disable()); // desabilita CSRF para facilitar testes externos
         return http.build();
-    }
+    }*/
 }
