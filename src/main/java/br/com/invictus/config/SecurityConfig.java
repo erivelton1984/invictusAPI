@@ -82,7 +82,10 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://3.144.221.193:3000", "http://3.144.221.193:8080")); // coloque aqui seu frontend
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://3.144.221.193:3000"
+        )); // coloque aqui seu frontend
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // importante: está habilitado, então não pode usar "*"
