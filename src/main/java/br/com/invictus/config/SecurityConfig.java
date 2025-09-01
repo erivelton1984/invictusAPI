@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -69,7 +71,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").authenticated() // Requer autenticação para API
                         .requestMatchers("/users").denyAll() // Bloquear acesso a "/users"
                 )
-                .cors(cors -> cors.configure(http)) // Configura CORS
+                //.cors(cors -> cors.configure(http)) // Configura CORS
+                .cors(withDefaults())
                 .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT
 
         return http.build(); // Constrói o SecurityFilterChain
@@ -79,7 +82,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:3000")); // coloque aqui seu frontend
+        config.setAllowedOrigins(List.of("http://localhost:3000", "http://3.144.221.193:3000", "http://3.144.221.193:8080")); // coloque aqui seu frontend
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // importante: está habilitado, então não pode usar "*"
