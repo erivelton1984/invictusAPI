@@ -1,6 +1,5 @@
 package br.com.invictus.config;
 
-
 import br.com.invictus.serialization.converter.YamlJackson2HttpMesageConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -31,21 +30,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        // https://www.baeldung.com/spring-mvc-content-negotiation-json-xml
-        // Via EXTENSION. http://localhost:8080/api/Student/v1.xml DEPRECATED on SpringBoot 2.6
-
-        // Via QUERY PARAM. http://localhost:8080/api/Student/v1?mediaType=xml
-		/*
-		configurer.favorParameter(true)
-			.parameterName("mediaType").ignoreAcceptHeader(true)
-			.useRegisteredExtensionsOnly(false)
-			.defaultContentType(MediaType.APPLICATION_JSON)
-				.mediaType("json", MediaType.APPLICATION_JSON)
-				.mediaType("xml", MediaType.APPLICATION_XML);
-		*/
-
-        // Via HEADER PARAM. http://localhost:8080/api/Student/v1
-
         configurer.favorParameter(false)
                 .ignoreAcceptHeader(false)
                 .useRegisteredExtensionsOnly(false)
@@ -56,16 +40,7 @@ public class WebConfig implements WebMvcConfigurer {
         ;
     }
 
-    /*@Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8081", "http://localhost:3000", "http://localhost:*", "http://3.144.221.193", "*")  // Domínio de onde as requisições vêm
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // Métodos permitidos
-                .allowedHeaders("*")  // Permitir todos os cabeçalhos
-                .allowCredentials(true);
-    }*/
-
-	 // Configuração de CORS global
+	// Configuração de CORS global
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
@@ -83,13 +58,4 @@ public class WebConfig implements WebMvcConfigurer {
 
         return new CorsFilter(source);
     }
-
-    // Configuração do Spring Security para liberar acesso externo
-   /* @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()) // libera todos os endpoints
-            .csrf(csrf -> csrf.disable()); // desabilita CSRF para facilitar testes externos
-        return http.build();
-    }*/
 }
