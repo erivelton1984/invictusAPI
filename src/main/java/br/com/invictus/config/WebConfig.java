@@ -40,7 +40,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
+        config.setAllowedOriginPatterns(List.of(
             "http://localhost:3000",   // Frontend local
             "http://localhost:8081",   // Outra porta local se usar
             "http://3.144.221.193"    // IP público da EC2
