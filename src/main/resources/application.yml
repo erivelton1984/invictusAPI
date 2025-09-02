@@ -18,7 +18,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/invictus?useTimezone=true&serverTimezone=UTC
-    username: postregs
+    username: postgres
     password: 1nv1ctvs
   jpa:
     open-in-view: false

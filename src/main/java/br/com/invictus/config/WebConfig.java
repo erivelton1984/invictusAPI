@@ -1,6 +1,6 @@
 package br.com.invictus.config;
 
-import br.com.invictus.serialization.converter.YamlJackson2HttpMessageConverter;
+import br.com.invictus.serialization.converter.YamlJackson2HttpMesageConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(new YamlJackson2HttpMessageConverter());
+        converters.add(new YamlJackson2HttpMesageConverter());
     }
 
     @Override
