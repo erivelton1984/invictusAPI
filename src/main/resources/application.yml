@@ -1,18 +1,25 @@
 cors:
-  originPatterns: http://localhost:3000,http://localhost:8080,http://localhost:8081, https://invictus.com.br
+  originPatterns:
+    - http://localhost:3000
+    - http://localhost:8080
+    - http://localhost:8081
+    - https://invictus.com.br
+
 file:
-  upload-dir: /Users/Erivelton/Documents/Repository/1-Pessoal/2-Invictus/UploadDir
+  upload-dir: /home/ubuntu/portal-upload   # alterei para diretório da EC2
+
 security:
   jwt:
     token:
       secret-key: 53cr37
       expire-length: 3600000
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/invictus-api?useTimezone=true&serverTimezone=UTC
+    url: jdbc:postgresql://localhost:5432/invictus?useTimezone=true&serverTimezone=UTC
     username: postgres
-    password: p3dr03th4n
+    password: 1nv1ctvs
   jpa:
     open-in-view: false
     hibernate:
@@ -28,7 +35,6 @@ spring:
       file-size-threshold: 2KB
       max-file-size: 200MB
       max-request-size: 215MB
-
   mail:
     host: smtp.gmail.com
     port: 587

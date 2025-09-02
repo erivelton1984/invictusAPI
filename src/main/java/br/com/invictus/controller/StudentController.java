@@ -96,6 +96,8 @@ public class StudentController {
             @RequestParam("studentEmail") String studentEmail,
             @RequestParam("genderStudent") String genderStudent,
             @RequestParam("birthDate") String birthDate,
+            @RequestParam("studentAge") Integer studentAge,
+            @RequestParam("studentWeight") String studentWeight,
             @RequestParam("enabled") Boolean enabled,
             @RequestParam("observation") String observation,
             @RequestParam("beltENUM") String beltENUM,
@@ -113,7 +115,9 @@ public class StudentController {
             studentVO.setStudentCellPhone(studentCellPhone);
             studentVO.setStudentEmail(studentEmail);
             studentVO.setGenderStudent(genderStudent);
+            studentVO.setStudentWeight(studentWeight);
             studentVO.setBirthDate(LocalDate.parse(birthDate));
+            studentVO.setStudentAge(studentAge);
             studentVO.setObservation(observation);
             studentVO.setBeltENUM(BeltENUM.fromDescription(beltENUM));
             studentVO.setDegreeENUM(DegreeENUM.fromValue(degreeENUM));

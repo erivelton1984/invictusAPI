@@ -1,13 +1,16 @@
 package br.com.invictus.config;
 
-
 import br.com.invictus.serialization.converter.YamlJackson2HttpMesageConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
@@ -23,37 +26,31 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        // https://www.baeldung.com/spring-mvc-content-negotiation-json-xml
-        // Via EXTENSION. http://localhost:8080/api/Student/v1.xml DEPRECATED on SpringBoot 2.6
-
-        // Via QUERY PARAM. http://localhost:8080/api/Student/v1?mediaType=xml
-		/*
-		configurer.favorParameter(true)
-			.parameterName("mediaType").ignoreAcceptHeader(true)
-			.useRegisteredExtensionsOnly(false)
-			.defaultContentType(MediaType.APPLICATION_JSON)
-				.mediaType("json", MediaType.APPLICATION_JSON)
-				.mediaType("xml", MediaType.APPLICATION_XML);
-		*/
-
-        // Via HEADER PARAM. http://localhost:8080/api/Student/v1
-
         configurer.favorParameter(false)
-                .ignoreAcceptHeader(false)
-                .useRegisteredExtensionsOnly(false)
-                .defaultContentType(MediaType.APPLICATION_JSON)
-                .mediaType("json", MediaType.APPLICATION_JSON)
-                .mediaType("xml", MediaType.APPLICATION_XML)
-                .mediaType("x-yaml", MEDIA_TYPE_APPLICATION_YML)
-        ;
+                  .ignoreAcceptHeader(false)
+                  .useRegisteredExtensionsOnly(false)
+                  .defaultContentType(MediaType.APPLICATION_JSON)
+                  .mediaType("json", MediaType.APPLICATION_JSON)
+                  .mediaType("xml", MediaType.APPLICATION_XML)
+                  .mediaType("x-yaml", MEDIA_TYPE_APPLICATION_YML);
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8081", "http://localhost:3000", "http://localhost:*")  // Domínio de onde as requisições vêm
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // Métodos permitidos
-                .allowedHeaders("*")  // Permitir todos os cabeçalhos
-                .allowCredentials(true);
+    // Configuração de CORS global
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOriginPatterns(List.of(
+            "http://localhost:3000",
+            "http://localhost:8081",
+            "http://3.144.221.193:3000"
+        ));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(source);
     }
 }
