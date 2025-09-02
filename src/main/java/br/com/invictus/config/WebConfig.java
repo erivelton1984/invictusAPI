@@ -42,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
         config.setAllowedOriginPatterns(List.of(
             "http://localhost:3000",
             "http://localhost:8081",
-            "http://3.144.221.193"
+            "http://3.144.221.193:3000"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
